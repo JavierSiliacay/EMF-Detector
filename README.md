@@ -15,7 +15,8 @@ This project is a simple yet interactive **Electromagnetic Field (EMF) Detector*
 - Arduino Uno or compatible board  
 - SSD1306 OLED Display (128x64, I2C)  
 - EMF Sensor (analog output to A2)  
-- 3 LEDs (Green, Yellow, Red)  
+- 9 LEDs (Green, Yellow, Red)
+- 9pcs 220 ohms resistors  
 - 1 Buzzer  
 - Jumper wires and breadboard  
 
