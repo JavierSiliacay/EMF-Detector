@@ -1,76 +1,76 @@
-### **Project Overview: EMF Detector with OLED Display**
+### Project Overview: EMF Detector with OLED Display
 
 This project is an **Electromagnetic Field (EMF) Detector** that uses an Arduino board to measure and visualize electromagnetic fields (EMF). It provides real-time feedback using an OLED display, LEDs, and a buzzer to indicate the intensity of the detected EMF. The device reads analog EMF data from a sensor and processes it to display varying signal strengths with visual and audio feedback.
 
-### **How It Works**
+### How It Works
 
-1. **Hardware Setup:**
+1.Hardware Setup:
 
-   * **EMF Sensor:** The EMF sensor is connected to an analog input pin (A2) of the Arduino. It detects electromagnetic radiation and provides an analog signal, which varies based on the strength of the detected field.
-   * **OLED Display:** The OLED screen (128x64 pixels) shows the real-time EMF level and a dynamic, animated sine wave representing the EMF signal.
-   * **LED Indicators:** Three LEDs (Green, Yellow, Red) represent the intensity of the detected EMF. The Green LED lights up for low EMF, Yellow for medium, and Red for high.
-   * **Buzzer:** The buzzer produces sound alerts when the EMF levels cross certain thresholds, providing an audible warning in addition to the visual feedback.
+   -EMF Sensor: The EMF sensor is connected to an analog input pin (A2) of the Arduino. It detects electromagnetic radiation and provides an analog signal, which varies based on the strength of the detected field.
+   -OLED Display: The OLED screen (128x64 pixels) shows the real-time EMF level and a dynamic, animated sine wave representing the EMF signal.
+   -LED Indicators: Three LEDs (Green, Yellow, Red) represent the intensity of the detected EMF. The Green LED lights up for low EMF, Yellow for medium, and Red for high.
+   -Buzzer: The buzzer produces sound alerts when the EMF levels cross certain thresholds, providing an audible warning in addition to the visual feedback.
 
-2. **Analog EMF Signal:**
+2.Analog EMF Signal:
 
-   * The EMF sensor outputs an analog signal that corresponds to the electromagnetic field strength.
-   * The Arduino reads this signal through the analog pin (A2) using `analogRead()` and processes the data.
+   - The EMF sensor outputs an analog signal that corresponds to the electromagnetic field strength.
+   - The Arduino reads this signal through the analog pin (A2) using `analogRead()` and processes the data.
 
-3. **Processing the Signal:**
+3.Processing the Signal:
 
-   * The raw EMF data is constrained between 0 and 1023 using the `constrain()` function to ensure it's within a valid range.
-   * The EMF level is categorized into three ranges:
+   - The raw EMF data is constrained between 0 and 1023 using the `constrain()` function to ensure it's within a valid range.
+   - The EMF level is categorized into three ranges:
 
-     * **Low EMF (0-300):** Green LED on, buzzer beeps at 500 Hz, and a slow sine wave on the OLED.
-     * **Medium EMF (301-600):** Yellow LED on, buzzer beeps at 1000 Hz, and a medium-speed sine wave on the OLED.
-     * **High EMF (601-1023):** Red LED on, buzzer beeps at 4000 Hz, and a fast-moving sine wave on the OLED.
+     -Low EMF (0-300):** Green LED on, buzzer beeps at 500 Hz, and a slow sine wave on the OLED.
+     -Medium EMF (301-600):** Yellow LED on, buzzer beeps at 1000 Hz, and a medium-speed sine wave on the OLED.
+     -High EMF (601-1023):** Red LED on, buzzer beeps at 4000 Hz, and a fast-moving sine wave on the OLED.
 
-4. **Wave Animation:**
+4.Wave Animation:
 
-   * A sine wave is used to represent the EMF signal on the OLED. The wave moves horizontally across the screen, its amplitude adjusting based on the EMF intensity. The wave speed and height are modified according to the detected EMF level, creating a dynamic and visually appealing effect.
+   - A sine wave is used to represent the EMF signal on the OLED. The wave moves horizontally across the screen, its amplitude adjusting based on the EMF intensity. The wave speed and height are modified according to the detected EMF level, creating a dynamic and visually appealing effect.
 
-5. **Display Updates:**
+5.Display Updates:
 
-   * The OLED display is updated every loop to show the current EMF level and the moving wave.
-   * The wave is drawn pixel-by-pixel using the `sin()` function, which generates smooth wave-like motion.
+   - The OLED display is updated every loop to show the current EMF level and the moving wave.
+   - The wave is drawn pixel-by-pixel using the `sin()` function, which generates smooth wave-like motion.
 
-6. **LED and Buzzer Feedback:**
+6. LED and Buzzer Feedback:
 
    * The LEDs and buzzer provide immediate feedback based on the detected EMF level:
 
-     * **Green LED and low frequency beep** for low EMF levels (safe).
-     * **Yellow LED and medium frequency beep** for moderate EMF levels.
-     * **Red LED and high-frequency beep** for dangerous EMF levels (alert).
+     -Green LED and low frequency beep** for low EMF levels (safe).
+     -Yellow LED and medium frequency beep** for moderate EMF levels.
+     -Red LED and high-frequency beep** for dangerous EMF levels (alert).
 
-### **Code Breakdown:**
+### Code Breakdown:
 
-* **Libraries:**
+* Libraries:
 
-  * `Wire`: For I2C communication with the OLED display.
-  * `Adafruit_SSD1306` and `Adafruit_GFX`: To drive the OLED display and render the wave animation.
-  * `math.h`: Used for generating the sine wave.
+  - `Wire`: For I2C communication with the OLED display.
+  - `Adafruit_SSD1306` and `Adafruit_GFX`: To drive the OLED display and render the wave animation.
+  - `math.h`: Used for generating the sine wave.
 
-* **Pin Definitions:**
+* Pin Definitions:
 
-  * `EMF_PIN`: Connected to the analog EMF sensor.
-  * `LED_LOW`, `LED_MEDIUM`, `LED_HIGH`: Used for indicating EMF levels.
-  * `BUZZER`: Used to sound an alert when EMF levels exceed certain thresholds.
+  - `EMF_PIN`: Connected to the analog EMF sensor.
+  - `LED_LOW`, `LED_MEDIUM`, `LED_HIGH`: Used for indicating EMF levels.
+  - `BUZZER`: Used to sound an alert when EMF levels exceed certain thresholds.
 
-* **Display Setup:**
+* Display Setup:
 
-  * The `setup()` function initializes the serial monitor, OLED display, and sets up the LEDs and buzzer.
-  * The `loop()` function continuously reads the EMF sensor data, processes it, updates the display, and triggers LEDs and buzzer feedback based on the EMF level.
+  - The `setup()` function initializes the serial monitor, OLED display, and sets up the LEDs and buzzer.
+  - The `loop()` function continuously reads the EMF sensor data, processes it, updates the display, and triggers LEDs and buzzer feedback based on the EMF level.
 
-### **How to Use:**
+###How to Use:
 
-1. **Setup the Hardware:** Connect the EMF sensor to the Arduino along with the OLED, LEDs, and buzzer as described in the wiring overview.
-2. **Upload the Code:** Upload the code to the Arduino board via the Arduino IDE.
-3. **Observe Feedback:** Upon powering up, the OLED will show the EMF level, and the LEDs will indicate the strength. The buzzer will beep according to the EMF intensity. The waveform on the OLED display will animate in real-time to represent the EMF signal.
+1.Setup the Hardware: Connect the EMF sensor to the Arduino along with the OLED, LEDs, and buzzer as described in the wiring overview.
+2.Upload the Code: Upload the code to the Arduino board via the Arduino IDE.
+3.Observe Feedback: Upon powering up, the OLED will show the EMF level, and the LEDs will indicate the strength. The buzzer will beep according to the EMF intensity. The waveform on the OLED display will animate in real-time to represent the EMF signal.
 
-### **Applications:**
+### Applications:
 
-* **EMF Detection:** Can be used in environments where monitoring of electromagnetic fields is needed.
-* **Educational Tool:** Useful for understanding how EMF detection works in a simple, visual way.
-* **Safety Monitoring:** Provides real-time feedback about potential EMF exposure, helping users stay within safe limits.
+-EMF Detection:- Can be used in environments where monitoring of electromagnetic fields is needed.
+-Educational Tool:- Useful for understanding how EMF detection works in a simple, visual way.
+-Safety Monitoring:- Provides real-time feedback about potential EMF exposure, helping users stay within safe limits.
 
 This EMF detector is a basic but effective way to detect and visualize electromagnetic fields in an easy-to-understand manner. It can be used for various applications, including educational projects and safety monitoring.
