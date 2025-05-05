@@ -1,0 +1,128 @@
+/*
+  EMF Detector with OLED Waveform Display
+  ---------------------------------------
+  Author: Javier Siliacay
+  Date: 2025-05-05
+  License: MIT
+
+  Description:
+  This project reads EMF levels via an analog pin and displays a visual wave animation
+  on a 128x64 OLED using Adafruit SSD1306 and GFX libraries. It uses LEDs and a buzzer
+  to indicate low, medium, or high EMF intensity in real time.
+
+  Copyright (c) 2025 Javier Siliacay
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+*/
+
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#include <math.h>
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_RESET -1
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+
+#define EMF_PIN A2
+
+#define LED_LOW 2      // Green LED
+#define LED_MEDIUM 3   // Yellow LED
+#define LED_HIGH 4     // Red LED
+#define BUZZER 5
+
+float wavePhase = 0;
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(LED_LOW, OUTPUT);
+  pinMode(LED_MEDIUM, OUTPUT);
+  pinMode(LED_HIGH, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
+
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println(F("SSD1306 allocation failed"));
+    while (true);
+  }
+
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.println("EMF Detector Ready");
+  display.display();
+  delay(2000);
+}
+
+void loop() {
+  int emfLevel = analogRead(EMF_PIN);
+  emfLevel = constrain(emfLevel, 0, 1023);
+
+  Serial.print("EMF Level: ");
+  Serial.println(emfLevel);
+
+  // Wave settings
+  float waveSpeed = 0.0;
+  float amplitude = 0.0;
+
+  // LED + buzzer + wave logic
+  if (emfLevel <= 300) {
+    digitalWrite(LED_LOW, HIGH);
+    digitalWrite(LED_MEDIUM, LOW);
+    digitalWrite(LED_HIGH, LOW);
+    tone(BUZZER, 500, 100);
+    amplitude = 5;
+    waveSpeed = 0.05;
+  } else if (emfLevel <= 600) {
+    digitalWrite(LED_LOW, LOW);
+    digitalWrite(LED_MEDIUM, HIGH);
+    digitalWrite(LED_HIGH, LOW);
+    tone(BUZZER, 1000, 100);
+    amplitude = 10;
+    waveSpeed = 0.15;
+  } else {
+    digitalWrite(LED_LOW, LOW);
+    digitalWrite(LED_MEDIUM, LOW);
+    digitalWrite(LED_HIGH, HIGH);
+    tone(BUZZER, 4000, 100);
+    amplitude = 15;
+    waveSpeed = 0.3;
+  }
+
+  // Animate wave
+  wavePhase += waveSpeed;
+
+  display.clearDisplay();
+
+  // EMF label
+  display.setCursor(0, 0);
+  display.print("EMF Level: ");
+  display.print(emfLevel);
+
+  // Draw moving wave
+  for (int x = 0; x < SCREEN_WIDTH; x++) {
+    float y = 40 + amplitude * sin((x * 0.2) + wavePhase);
+    display.drawPixel(x, (int)y, WHITE);
+  }
+
+  display.display();
+  delay(30);
+}
