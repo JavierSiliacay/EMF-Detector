@@ -1,34 +1,17 @@
 /*
-  EMF Detector with OLED Waveform Display
-  ---------------------------------------
-  Author: Javier Siliacay
-  Date: 2025-05-05
-  License: MIT
+  ------------------------------------------------------------------------------
+  © 2025 Javier Siliacay | USTP Autotronics - All Rights Reserved.
 
-  Description:
-  This project reads EMF levels via an analog pin and displays a visual wave animation
-  on a 128x64 OLED using Adafruit SSD1306 and GFX libraries. It uses LEDs and a buzzer
-  to indicate low, medium, or high EMF intensity in real time.
+  This source code is the intellectual property of the author and is provided 
+  for educational and non-commercial use only. Unauthorized copying, modification, 
+  distribution, or use of this code for commercial purposes is strictly prohibited 
+  without prior written consent from the author.
 
-  Copyright (c) 2025 Javier Siliacay
+  Violation of these terms may result in legal action under applicable intellectual 
+  property laws.
 
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in
-  all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  THE SOFTWARE.
+  For permissions, contact: github.com/javiersiliacay
+  ------------------------------------------------------------------------------
 */
 
 #include <Wire.h>
